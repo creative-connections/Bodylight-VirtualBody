@@ -1,19 +1,19 @@
 <template>
-  <section class="au-animate animate-fade-in">
-    <h2 t="title-apps">Virtual Patient Free Style Mode Simulator</h2>
-    <p><button click.delegate="summary()" class="w3-indigo w3-button"><i class="fa fa-play"></i></button><b t="title-summary">Summary report</b> </p>
-    <p><button click.delegate="toggleapp(0,'kidney')" class="w3-indigo w3-button"><i class="fa fa-play"></i></button><b t="title-kidney">Kidney report </b> </p>
-    <p><button click.delegate="toggleapp(1,'heart')" class="w3-indigo w3-button"><i class="fa fa-play"></i></button><b t="title-heart">Heart report </b> </p>
-    <div style="position: relative">
-      <!--img src="../images/digitalbody.png" style="width:95%;"/-->
-      <!--a href="#/apps/ap1=kidney" click.delegate="toggleapp(0,'kidney')"><div class="vb-roundblueborder" style="position: absolute;left: 57%;top: 44%;width: 4%;height: 12%; "></div></a>
-      <a href="#/apps/ap2=heart" click.delegate="toggleapp(1,'heart')"><div class="vb-roundblueborder" style="position: absolute; left: 67%; top: 43%; width: 7%; height: 20%; "></div></a-->
-      <div ref="ap1" class="au-animate animate-fade-in" show.bind="showap1" style.bind="ap1style">
-        <button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="rotateap1()" title="rotate"><i class="fa fa-rotate-left"></i></button>
-        <iframe ref="ap1iframe" class="vb-roundborder" style="width:133%;height:133%;-ms-zoom: 0.75;-moz-transform: scale(0.75);-moz-transform-origin: 0 0;-o-transform: scale(0.75);-o-transform-origin: 0 0;-webkit-transform: scale(0.75);-webkit-transform-origin: 0 0;" src.bind="ap1src"></iframe></div>
-      <div ref="ap2" class="au-animate animate-fade-in" show.bind="showap2" style.bind="ap2style">
-        <button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="rotateap2()" title="rotate"><i class="fa fa-rotate-left"></i></button>
-        <iframe ref="ap2iframe" class="vb-roundborder" style="width:133%;height:133%;-ms-zoom: 0.75;-moz-transform: scale(0.75);-moz-transform-origin: 0 0;-o-transform: scale(0.75);-o-transform-origin: 0 0;-webkit-transform: scale(0.75);-webkit-transform-origin: 0 0;" src.bind="ap2src"></iframe></div>
-    </div>
-  </section>
+  <require from="./w3.css"></require>
+  <require from="font-awesome/css/font-awesome.min.css"></require>
+  <require from="./styles.css"></require>
+  <require from="./components/scene3d"></require>
+<div class="w3-black">
+  <require from="./components/nav-bar.html"></require>
+  <nav-bar router.bind="router"></nav-bar>
+  <scene3d></scene3d>
+
+  <div class="page-host w3-left w3-white w3-padding w3-opacity w3-hover-opacity-off w3-small" style.bind="style">
+    <button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="maximise()" title="maximise"><i class="fa fa-arrows-alt"></i></button>
+    <button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="normalise()" title="make medium"><i class="fa fa-window-maximize"></i></button>
+    <button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="minimise()" title="minimise"><i class="fa fa-window-minimize"></i></button>
+    <!--button class="w3-right w3-button w3-hover-indigo w3-black" click.delegate="rotate()" title="rotate"><i class="fa fa-rotate-left"></i></button-->
+    <router-view></router-view>
+  </div>
+</div>
 </template>
