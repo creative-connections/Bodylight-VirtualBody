@@ -19,6 +19,7 @@ export class Scenarios {
     //this.marked = import 'marked';
     this.navigation = null;
     this.prevurl=this.nexturl="";
+    console.log('Scenarios constructor()');
   }
 
   activate(params, routeConfig, navigationInstruction) {

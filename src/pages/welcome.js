@@ -8,6 +8,7 @@ import {inject} from 'aurelia-framework';
 export  class Welcome {
   constructor(i18n) {
     this.i18n = i18n;
+    console.log('Welcome constructor()');
   }
   attached() {
     this.converter = new Converter();
