@@ -3,6 +3,8 @@ import * as THREE from 'three/src/Three';
 import {Stats} from 'three/examples/jsm/libs/stats.module.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
+//webxr support
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
 import * as objects3d from './objects3d.json';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -72,6 +74,8 @@ export class Scene3d {
     //TODO add other objects
     this.renderer.gammaOutput = true;
     this.renderer.gammaFactor = 2.2;
+    //webxr enable
+    this.renderer.xr.enabled = true;
     this.controls = this.declareOrbitControls();
 
     this.controls.update();
@@ -80,6 +84,8 @@ export class Scene3d {
     this.animate();
     //setInterval(this.blink,200)
     //this.scheduleblink();
+    //webxr add button
+    document.body.appendChild( VRButton.createButton( this.renderer ) );
   }
 
   dettached() {
