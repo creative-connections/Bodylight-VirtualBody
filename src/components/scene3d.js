@@ -149,10 +149,17 @@ export class Scene3d {
   }
 
   animate() {
+    window.that.renderer.setAnimationLoop( function () {
+
+      window.that.renderer.render( window.that.scene, window.that.camera );
+
+    } );
     //window.that.scene.rotation.x += 0.01;
     //window.that.scene.rotation.y += 0.01;
-    window.requestAnimationFrame( window.that.animate );
-    window.that.renderer.render( window.that.scene, window.that.camera );
+
+    //window.requestAnimationFrame( window.that.animate );
+    //window.that.renderer.render( window.that.scene, window.that.camera );
+
     //window.that.stats.update()
     //setInterval()
     //
