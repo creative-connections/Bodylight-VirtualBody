@@ -34,13 +34,16 @@
     </style>
 </head>
 <body>
-<button onclick="enterVR()" style="position:fixed;bottom:10px;left:300px">Enter VR</button>
+<button onclick="enterVR()" style="position:absolute;bottom:10px;left:10%">Enter VR</button>
+<button onclick="showhideskin()" style="position:absolute;bottom:10px;left:30%">Skin</button>
+<button onclick="navigate()" style="position:absolute;bottom:10px;left:50%">Navigate</button>
 <canvas id="renderCanvas" touch-action="none"></canvas> <!-- touch-action="none" for best results from PEP -->
 
 <script>
     /*import {Patientbreathing} from './patientbreathing';
     let pb = new Patientbreathing();
-    pb.attached();*/
+    pb.attached();
+    */
     var canvas = document.getElementById("renderCanvas");
 
     var engine = null;
@@ -59,12 +62,20 @@
       BABYLON.SceneLoader.Append("", "vpacient.gltf", scene, function (scene) {
         // Create a default arc rotate camera and light.
         scene.createDefaultCameraOrLight(true, true, true);
-
+        //scene.activeCamera = new BABYLON.ArcRotateCamera("camera1", -Math.PI/2, 0.5, 25, new BABYLON.Vector3(0, 1, 0), scene);
+        //scene.activeCamera.attachControl(canvas, true);
         // The default camera looks at the back of the asset.
         // Rotate the camera by 90 degrees to the front of the asset.
         scene.activeCamera.alpha += Math.PI/2;
         scene.activeCamera.beta += -Math.PI/3;
         scene.activeCamera.radius = 2;
+        //append skeleton
+        BABYLON.SceneLoader.Append("", "vpacientkostra.gltf", scene, function (scene) {
+          //hide skeleton
+          //c = scene.getNodeByID("HumanCelek")
+          //c.visibility = 0;
+        });
+
       });
       scene.clearColor = BABYLON.Color3.Black();
       return scene;
@@ -102,10 +113,80 @@
       if (xr) {
         //do webxr stuff
         window.scene.createDefaultXRExperienceAsync();
+        setTimeout(showhideskin, 10000)
+        setTimeout(showhideskin, 30000)
+        setTimeout(showhideskin, 40000)
       }  else {
         console.log('WebXR not detected');
         alert('WebXR for virtual/augmented reality not detected');
       }
+    }
+
+    var skinstate = 1;
+    function showhideskin() {
+      if (skinstate === 1) {
+        //hide skin
+        a = scene.getNodeByID("Human.1")
+        a.visibility = 0;
+        b = scene.getNodeByID("Trenirky")
+        b.visibility = 0;
+        //show skeleton
+        c = scene.getNodeByID("HumanCelek")
+        c.visibility = 1;
+        console.log('objects a,b,c,',a,b,c);
+        skinstate = 0;
+      }
+      else {
+        //show skin
+        a = scene.getNodeByID("Human.1")
+        a.visibility = 1;
+        b = scene.getNodeByID("Trenirky")
+        b.visibility = 1;
+        //hide skeleton
+        c = scene.getNodeByID("HumanCelek")
+        c.visibility = 0;
+        console.log('objects a,b,c,',a,b,c);
+        skinstate = 1;
+      }
+    }
+    var navigatestate = 0;
+    function navigate() {
+      if (navigatestate === 0) {
+        let p = new BABYLON.Vector3(-0.011,0.461,0.053)
+        scene.activeCamera.aniLockedTarget(p,1.592,0.01,0.486,60)
+        skinstate=1;
+        showhideskin();
+      }
+      else if (navigatestate === 1) {
+        let p = new BABYLON.Vector3(-0.069,0.199,-0.076);
+        scene.activeCamera.aniLockedTarget(p,1.501,0.155,0.21,60)
+      }
+      else {
+        let p = new BABYLON.Vector3(0.984,1.71,0.23)
+        scene.activeCamera.aniLockedTarget(p,0,0.523,2,60)
+        skinstate=0;
+        showhideskin();
+      }
+
+      if (navigatestate>3) navigatestate = 0; else navigatestate++;
+    }
+    BABYLON.ArcRotateCamera.prototype.spinTo = function (whichprop, targetval, speed) {
+      var ease = new BABYLON.CubicEase();
+      ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+      BABYLON.Animation.CreateAndStartAnimation('at4', this, whichprop, speed, 120, this[whichprop], targetval, 0, ease);
+    }
+
+    BABYLON.Camera.prototype.aniLockedTarget = function (targetPos, alpha,beta,radius, speed) {
+      if (!this.lockedTarget) {
+        console.log(this.target);
+        this.lockedTarget = this.target;
+      }
+      var ease = new BABYLON.CubicEase();
+      ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+      BABYLON.Animation.CreateAndStartAnimation('at5', this, 'lockedTarget', speed, 120, this.lockedTarget, targetPos, 0, ease);
+      BABYLON.Animation.CreateAndStartAnimation('at5', this, 'alpha', speed, 120, this.alpha, alpha, 0, ease);
+      BABYLON.Animation.CreateAndStartAnimation('at5', this, 'beta', speed, 120, this.beta, beta, 0, ease);
+      BABYLON.Animation.CreateAndStartAnimation('at5', this, 'radius', speed, 120, this.radius, radius, 0, ease);
     }
 
 </script>
