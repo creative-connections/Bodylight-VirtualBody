@@ -1,8 +1,14 @@
 # Virtual Body - Default Virtual Patient App
 
-See live app at https://bodylight.physiome.cz/Bodylight-VirtualBody/
+This application doesn't need installation, see it live at https://bodylight.physiome.cz/Bodylight-VirtualBody/.
 
+If in big screen - use chrome in kiosk mode `chrome.exe --kiosk https://bodylight.physiome.cz/Bodylight-VirtualBody/`
+
+If in VR/AR device open browser and go to URL `https://bodylight.physiome.cz/Bodylight-VirtualBody/` and use the button `ENTER VR`.
+## screenshot
 ![screenshot](static/help/screenshot.PNG)
+
+## Local installation
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 brief installation:
@@ -16,7 +22,7 @@ For more information, go to https://aurelia.io/docs/cli/webpack
 
 ## Local cache of GLTF files
 
-GLTF files of 3d models are externally hosted on public cloud (, for testing offline purposes execute the script:
+GLTF files of 3d models are externally hosted on public cloud. You may download it offline by the script:
 
 `python cachemodels.py`
  - this will download the model files into `/static/models` directory which is not part of source control. Scened3d object checks whether local files are available, if not then remote files are downloaded.
